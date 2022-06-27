@@ -1,0 +1,206 @@
+ # Function
+ # Simple Function 
+from cProfile import run
+import numbers
+from pickle import FALSE, NONE
+import re
+from unittest import result
+
+
+def do_nothing():
+    pass
+do_nothing()
+## Now let's make a function that has no arguments but will provide us with what we want to print
+def make_quack():
+    print("quack")
+make_quack()
+## Now let's make a function that has no arguments but will provide us return
+def agree():
+    return True
+agree()
+# Let's use conditionals for this function
+if agree():
+    print("Splendid")
+else:
+    print("No Way")
+## Теперь пришло время поместить что-нибудь в эти скобки.
+def echo(anything):
+    return anything + " " + anything
+echo("Anushervon")
+## Functions plus conditionals inside them as well as got arguments.
+def commentary(color):
+    if color == "red":
+        return "It'a a cherry"
+    elif color == "orange":
+        return "It's an orange"
+    else:
+        return "I have never heard of the color " + color + "."
+commentary("white")
+## Let's check how "None" works
+def is_none(thing):
+    if thing is None:
+        print("It's None")
+    elif thing:
+        print("It's True")
+    else:
+        print("It's False")
+is_none(False)
+## Positional Arguments and their Alternatives
+def menu(wine, entree, dessert):
+    return{"wine":wine, "entree": entree, "dessert":dessert}
+menu("chardonay", "Japan", "cake") ## The pitfall for this is that we shouldn't forget the position of each argument but 
+## in real life scenarios with a lot of arguments, we might need something different
+menu(entree="beef", wine="french", dessert="honeybone")
+## We can combine positional arguments with named arguments . For instance
+menu("Russian", entree="beef", dessert="Tasty Cake")
+## Value by default for the functions.It's useful when other party doesn't provide any info regarding this
+def restaurants(russian, japanese, chinese ="Beijing Duck"):
+    return{"russian":russian, "japanese":japanese, "chinese":chinese}
+restaurants("Moscow", "Tokyo", "Beijing")
+## Now let's not use an argument for chinese
+restaurants("Moscow", "Tokyo") # As you can it takes what we have provided by default
+# But even if we have provided an argument by default, by providing it the end, we can replace it with default one
+restaurants("St. Petersburg", "Osaka", "Shanghai") # As you can see, Shanghai has been provided instead of Beijing Duck
+## Function  buggy() exapmle
+def buggy(arg, result = []):
+    result.append(arg)
+    print(result)
+buggy("Anush")
+buggy("Be") # As we can see the bug in here is that the function keeps the previous argument
+###
+# The code should be like this
+def works(arg):
+    result = []
+    result.append(arg)
+    return result  # Honestly, I didn't get it 
+## When we use asterisk in function it shows everything as tuples
+# For instance 
+def asterisk(*arg):
+    print("Positional arguments are in tuples : ",arg)
+asterisk()
+## Let's chekc -- As you can see, everything is in the tuples
+asterisk("Hey Anush, why are u in the tuples", "wait", "numbers maybe", 222)
+## A new way of using *args
+def asterisk_more(one,two, three, *args):
+    print("This is one: ",one)
+    print("This is two: ",two)
+    print("This is three: ",three)
+    print("The rest are in asterisk argument: ",args)
+asterisk_more(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+## Two Asterisk alter our arguments in to dictionary. For instance
+def print_kwargs(**kwargs):
+    print("Keyword arguments: ", kwargs)
+print_kwargs(name = "Anush", surname = "Akbarali", job = "financier", future_plans = "Python, Java and own company", status = "married")
+## Stroke of Documentation 
+def echo(anything):
+    "echo is fun "
+    return anything
+##
+def print_if_true(thing,check):
+    """ 
+    Print the first argument if the second argument is true
+    The operation is 
+    1. Check whether the *second* argument is True
+    2. If it is, print the *first* argument
+    """
+    if check:
+        print(thing)
+help(echo)
+### I didn't get it !
+print(echo.__doc__)
+##
+def just_a_func():
+    print("Anush")
+just_a_func()
+## Func in func()
+def run_something(elses):
+    elses()
+run_something(just_a_func)
+### Function is an object
+type(run_something)
+## Check the type of the argument
+def add_args(arg1, arg2, args3):
+    print(arg1 + arg2 + args3)
+add_args(20,50)
+###
+type(add_args)
+## we can have func inside a func and two or three other arguments inside of it -- Recheck it !
+def run_run(add_args, arg1, arg2,arg3):
+    add_args(arg1, arg2,arg3)
+run_run(add_args,1,2,9)
+###Вы можете объединить этот прием с использованием *args и **kwargs.
+def different_method(*args):
+    return sum(args)
+different_method(10,20,30)
+## Внутренние функции
+def outer(a,b):
+    def inner(c,d):
+        return c + d
+    return inner(a,b)
+outer(5,7)
+# An example with inner functions
+def knights(saying):
+    def inner(quote):
+        return "We are the knights who say :  '%s' " % quote
+    return inner(saying)
+knights("Hello!")
+## Замыкания
+def knights2(saying):
+    def inner2():
+        return "We are the knights who say : '%s'" % saying
+    return inner2
+# Они являются функциями, а также замыканиями:
+an = knights2("Anush")
+ba = knights2("Oslo")
+type(an)
+type(ba)
+##
+an()
+ba()
+## Анонимные функции: функция lambda()
+# Lambda
+def edit_story(words,func):
+    for word in words:
+        print(func(word))
+
+stairs = ["thud", "meow", "hiss"]
+
+def enliven(word):
+    return word.capitalize()+ " !"
+enliven(stairs)
+
+# Let's mix them
+edit_story(stairs, enliven)
+# Instead of function Enliven, we can use Function
+edit_story(stairs, lambda word:word.capitalize() + "!")
+#
+sum(range(1,10))
+# Генераторы
+# Let's write the function of the generator
+def my_range(first =0, last =10, step =2):
+    nomer = first
+    while nomer<last:
+        yield nomer
+        nomer+=step
+my_range
+ranger = my_range(1,10)
+ranger
+
+##
+for x in ranger:
+    print(x)
+## Decorator
+# Sometime you have to modify the code but 
+## do not change its last value.
+## In order to do this you need Decorators
+def document_it(func):
+    def new_function(*args, **kwargs):
+        print("Running function: ", func.__name__)
+        print("Positional arguments: ", args)
+        print("Keyword arguments: ",kwargs)
+        result = func(*args, **kwargs)
+        print("Result:", result)
+        return result
+    return new_function
+# p.130 I didn't understand much about the decorators
+
